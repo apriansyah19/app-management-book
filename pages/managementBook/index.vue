@@ -151,15 +151,15 @@
 
 <style scoped>
   .loading-page {
-    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    z-index: 3000;
     height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    text-align: center;
-    padding-top: 300px;
-    font-size: 30px;
-    font-family: sans-serif;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    justify-content: center;
+    display: flex;
+    align-items: center;
   }
 </style>
