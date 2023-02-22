@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div v-if="loading" class="loading-page">
+    <!-- <div v-if="loading" class="loading-page">
       <b-spinner style="width: 3rem; height: 3rem;" label="Large Spinner"></b-spinner>
-    </div>
+    </div> -->
     <b-container class="pt-5">
       <b-button size="md" @click="addData()" variant="primary" class="mb-1">
         Add
       </b-button>
       <b-table :items="items" :fields="fields" :current-page="currentPage" :per-page="perPage" :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc" :sort-direction="sortDirection" stacked="md" show-empty small>
+        :sort-desc.sync="sortDesc" :sort-direction="sortDirection" :busy="loading" stacked="md" show-empty small outlined>
         <template #cell(gambar)="row">
           <b-img :height="150" :src="row.value"></b-img>
         </template>
@@ -21,6 +21,13 @@
             <b-icon-trash></b-icon-trash>
           </b-button>
         </template>
+
+        <template #table-busy>
+        <div class="text-center text-black my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
       </b-table>
       <div class="overflow-auto">
         <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="right"></b-pagination>
@@ -51,7 +58,7 @@
         loading: false
       }
     },
-    mounted() {
+    created() {
       this.getData()
     },
     methods: {
@@ -62,7 +69,7 @@
           "Content-Type": "application/json",
           "x-hasura-admin-secret": "QOcEnAWFOG6YIJW3Z1cE7sOibdW1dMrRaX36hqyWUcVkpdiUdcAMWrvW3LAZpAfX",
         };
-
+        
         const API_QUERY = `
         query MyQuery {
           management_book_tabel_buku(order_by: {id: desc}) {
@@ -102,7 +109,11 @@
           allowOutsideClick: false,
         }).then((result) => {
           if (result.isConfirmed) {
-            this.delete(val)
+            const objWithIdIndex = this.items.findIndex((obj) => obj.id === val.id);
+            if (objWithIdIndex > -1) {
+                this.items.splice(objWithIdIndex, 1);
+            }
+            // this.delete(val)
           }
         })
       },

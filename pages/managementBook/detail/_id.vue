@@ -40,7 +40,8 @@
         </b-container>
         <div class="d-flex justify-content-end container">
           <b-button type="submit" class="mr-2" variant="primary">Submit</b-button>
-          <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button type="reset" class="mr-2" variant="danger">Reset</b-button>
+          <b-button variant="outline-dark" flat @click="$router.back()">Back</b-button>
         </div>
       </b-form>
     </div>
