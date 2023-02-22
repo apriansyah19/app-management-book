@@ -20,7 +20,7 @@
               <label><b>Stok</b></label>
             </b-col>
             <b-col sm="9">
-              <b-form-input v-model="form.stok" required></b-form-input>
+              <b-form-input v-model="form.stok" @keypress="onlyNumber" required></b-form-input>
             </b-col>
           </b-row>
 
@@ -252,6 +252,12 @@ export default {
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
       });
+    },
+    onlyNumber($event) {
+      const keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57)) {
+        $event.preventDefault();
+      }
     }
   }
 }
